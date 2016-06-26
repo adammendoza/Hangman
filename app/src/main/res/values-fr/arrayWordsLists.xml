@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="words_lists_array">
+        <item>Animaux</item>
+        <item>Dictionnaire</item>
+        <item>Des personnes celebres</item>
+        <item>Films</item>
+        <item>Aliments</item>
+        <item>Des endroits</item>
+        <item>Liste personnalisée</item>
+    </string-array>
+</resources>

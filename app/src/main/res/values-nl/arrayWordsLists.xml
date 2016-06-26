@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="words_lists_array">
+        <item>Dieren</item>
+        <item>Woordenboek</item>
+        <item>Beroemde mensen</item>
+        <item>Films</item>
+        <item>Eten</item>
+        <item>Plaatsen</item>
+        <item>Aangepaste lijst</item>
+    </string-array>
+</resources>

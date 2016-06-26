@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="app_id">787931069584</string>
+    <string name="package_name">com.gfaiers.hangman</string>
+    <string name="achievement_first_game">CgkIkPnnovcWEAIQAQ</string>
+    <string name="achievement_win_5_games">CgkIkPnnovcWEAIQAg</string>
+    <string name="achievement_win_10_games">CgkIkPnnovcWEAIQAw</string>
+    <string name="achievement_win_20_games">CgkIkPnnovcWEAIQBA</string>
+    <string name="achievement_win_100_games">CgkIkPnnovcWEAIQBQ</string>
+    <string name="achievement_win_200_games">CgkIkPnnovcWEAIQBg</string>
+    <string name="achievement_win_500_games">CgkIkPnnovcWEAIQBw</string>
+    <string name="achievement_win_1000_games">CgkIkPnnovcWEAIQCA</string>
+    <string name="achievement_use_your_words">CgkIkPnnovcWEAIQCQ</string>
+    <string name="achievement_use_your_words_5">CgkIkPnnovcWEAIQCg</string>
+    <string name="achievement_use_your_words_10">CgkIkPnnovcWEAIQCw</string>
+    <string name="achievement_use_your_words_20">CgkIkPnnovcWEAIQDA</string>
+    <string name="achievement_use_your_words_100">CgkIkPnnovcWEAIQDQ</string>
+    <string name="achievement_use_your_words_200">CgkIkPnnovcWEAIQDg</string>
+    <string name="achievement_use_your_words_500">CgkIkPnnovcWEAIQDw</string>
+    <string name="achievement_use_your_words_1000">CgkIkPnnovcWEAIQEA</string>
+    <string name="achievement_5_in_a_row">CgkIkPnnovcWEAIQEQ</string>
+    <string name="achievement_10_in_a_row">CgkIkPnnovcWEAIQEg</string>
+    <string name="achievement_none_lost_15">CgkIkPnnovcWEAIQKA</string>
+    <string name="achievement_none_lost_10">CgkIkPnnovcWEAIQKQ</string>
+    <string name="achievement_none_lost_5">CgkIkPnnovcWEAIQKg</string>
+    <string name="achievement_5_lives">CgkIkPnnovcWEAIQEw</string>
+    <string name="achievement_6_lives">CgkIkPnnovcWEAIQFA</string>
+    <string name="achievement_7_lives">CgkIkPnnovcWEAIQFQ</string>
+    <string name="achievement_8_lives">CgkIkPnnovcWEAIQFg</string>
+    <string name="achievement_9_lives">CgkIkPnnovcWEAIQFw</string>
+    <string name="achievement_10_lives">CgkIkPnnovcWEAIQGA</string>
+    <string name="achievement_11_lives">CgkIkPnnovcWEAIQGQ</string>
+    <string name="achievement_12_lives">CgkIkPnnovcWEAIQGg</string>
+    <string name="achievement_13_lives">CgkIkPnnovcWEAIQGw</string>
+    <string name="achievement_14_lives">CgkIkPnnovcWEAIQHA</string>
+    <string name="achievement_15_lives">CgkIkPnnovcWEAIQHQ</string>
+    <string name="achievement_loser">CgkIkPnnovcWEAIQHg</string>
+    <string name="achievement_losing_streak">CgkIkPnnovcWEAIQHw</string>
+    <string name="achievement_big_loser">CgkIkPnnovcWEAIQIA</string>
+    <string name="achievement_under_500">CgkIkPnnovcWEAIQIQ</string>
+    <string name="achievement_under_250">CgkIkPnnovcWEAIQIg</string>
+    <string name="achievement_under_100">CgkIkPnnovcWEAIQIw</string>
+    <string name="achievement_under_50">CgkIkPnnovcWEAIQJA</string>
+    <string name="achievement_under_25">CgkIkPnnovcWEAIQJQ</string>
+    <string name="achievement_under_10">CgkIkPnnovcWEAIQJw</string>
+    <string name="achievement_the_secret">CgkIkPnnovcWEAIQJg</string>
+</resources>
