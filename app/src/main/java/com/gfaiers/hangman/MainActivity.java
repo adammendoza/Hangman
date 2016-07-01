@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Nothing relating to the views on the activity can go before this following line
         setContentView(R.layout.activity_main);
         // Create the Google Api Client with access to the Play Games services
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -80,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Button buttonHighScores = (Button) findViewById(R.id.buttonHighScores);
         Button buttonSettings = (Button) findViewById(R.id.buttonSettings);
 
-        // Nothing can go between them, you can't add things to anything with out having the content set to the main activity
         SharedPreferences settings = getSharedPreferences(PREFERENCE_SETTINGS, MODE_PRIVATE);
         intLongestWord = settings.getInt("settingLongestWord", 28) + 2;
         intShortestWord = settings.getInt("settingShortestWord", 1) + 1;
