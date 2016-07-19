@@ -80,4 +80,7 @@
     <string name="class_not_found">Class not found</string>
     <string name="unable_to_close">Unable to close file</string>
     <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="sign_in_other_error">Er was een probleem met sign- in, probeer het later opnieuw.</string>
+    <string name="sign_in_failure">Onmogelijk om in te loggen.</string>
+    <string name="achievement_message">Je moet in de Google Play-services worden ondertekend om de resultaten te ontgrendelen</string>
 </resources>

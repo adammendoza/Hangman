@@ -80,4 +80,7 @@
     <string name="class_not_found">Class not found</string>
     <string name="unable_to_close">Unable to close file</string>
     <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="sign_in_other_error">Hubo un problema con el inicio de sesión , por favor intente de nuevo más tarde.</string>
+    <string name="sign_in_failure">Incapaz de acceder.</string>
+    <string name="achievement_message">Es necesario que se firmará en los servicios de Google Play para desbloquear logros</string>
 </resources>

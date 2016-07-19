@@ -80,4 +80,7 @@
     <string name="class_not_found">Class not found</string>
     <string name="unable_to_close">Unable to close file</string>
     <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="sign_in_other_error">Il y avait un problème avec la connexion, s\'il vous plaît essayer à nouveau plus tard.</string>
+    <string name="sign_in_failure">Impossible de se connecter.</string>
+    <string name="achievement_message">Vous devez être connecté dans les services de Google Play pour déverrouiller réalisations</string>
 </resources>

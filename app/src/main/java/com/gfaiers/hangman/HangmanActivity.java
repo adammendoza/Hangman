@@ -18,10 +18,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-/*
-import com.google.android.gms.common.ConnectionResult;
+import android.widget.Toast;
+
 import com.google.android.gms.common.api.GoogleApiClient;
-*/
+import com.google.android.gms.games.Games;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -64,18 +65,16 @@ public class HangmanActivity extends AppCompatActivity {
 
     // Declare variables to use within the application
     private static final String TAG = "Hangman";
-    /*
     private static final int RC_SIGN_IN = 9001; // Request code used to invoke sign in user interactions.
     private GoogleApiClient mGoogleApiClient; // Client user to interact with Google APIs.
     private boolean mResolvingConnectionFailure = false; // Are we currently resolving a connection failure?
     private boolean mSignInClicked = false; // Has the user clicked the sign in  button?
     private boolean mAutoStartSignInFlow = true; // Set to true to automatically start the sign in flow when the Activity starts.  If false user has to click to sign in
-    */
     final static String PREFERENCE_SETTINGS = "settingWordLength";
     static boolean booGuessInWord, booFirstPlay = false, booOK = false, booCancelHandler = false, booNewGame = false, booHasBeenPaused = false;
     public static int intLivesRemaining, intLives;
     static char chrGuessed;
-    static int intLettersRemaining, intLivesLost, intShortestWord, intLongestWord;
+    static int intLettersRemaining, intLivesLost, intShortestWord, intLongestWord, intWinStreak, intLossStreak;
     static long  intTime, intBestTime1, intBestTime2, intBestTime3, intBestTime4, intBestTime5, intBestTime6, intBestTime7, intBestTime8, intBestTime9, intBestTime10;
     static String strBestTime1, strBestTime2, strBestTime3, strBestTime4, strBestTime5, strBestTime6,strBestTime7, strBestTime8, strBestTime9, strBestTime10;
     static String strWord, strGuessed, strWordsLists, strCustom;
@@ -94,12 +93,6 @@ public class HangmanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hangman);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        /*mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Games.API).addScope(Games.SCOPE_GAMES)
-                .build();
-        */
 
         // Get settings from internal storage for use within the activity
         SharedPreferences settings = getSharedPreferences(PREFERENCE_SETTINGS, MODE_PRIVATE);
@@ -109,6 +102,8 @@ public class HangmanActivity extends AppCompatActivity {
         booFirstPlay = settings.getBoolean("settingFirstPlay", true);
         strWordsLists = settings.getString("settingWordsLists", getResources().getString(R.string.default_list));
         strCustom = settings.getString("settingCustom", getResources().getString(R.string.default_custom));
+        intWinStreak = settings.getInt("settingWinStreak", 0);
+        intLossStreak = settings.getInt("settingLossStreak", 0);
         newGame();
 
         // Make the hearts appear for how many lives the player has, and set their image to the heart icon
@@ -236,6 +231,12 @@ public class HangmanActivity extends AppCompatActivity {
         booHasBeenPaused = false;
         super.onStop();
 
+        SharedPreferences settings = getSharedPreferences(PREFERENCE_SETTINGS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("settingWinStreak", intWinStreak);
+        editor.putInt("settingLossStreak", intLossStreak);
+        editor.apply();
+
         // The hearts
         for (int id: LIFE_IDS) {
             final ImageView imageLivesUsage = (ImageView)findViewById(id);
@@ -252,7 +253,6 @@ public class HangmanActivity extends AppCompatActivity {
                 Drawable d = imageLettersUsage.getDrawable();
                 if (d != null) d.setCallback(null);
                 imageLettersUsage.setImageDrawable(null);
-
             }
         }
         // The buttons
@@ -390,23 +390,7 @@ public class HangmanActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-/*
-    @Override
-    public void onConnected(Bundle bundle){
 
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed() called, result: " + connectionResult);
-
-    }
-*/
     @SuppressWarnings("unchecked")
     public String getTheWord() {
 
@@ -682,6 +666,8 @@ public class HangmanActivity extends AppCompatActivity {
             if (timer != null) {
                 timer.cancel();
             }
+            intWinStreak ++;
+            intLossStreak = 0;
             for (int id: BUTTON_IDS) {
                 final ImageButton buttonLettersUsage = (ImageButton) findViewById(id);
                 if (buttonLettersUsage != null) {
@@ -716,8 +702,10 @@ public class HangmanActivity extends AppCompatActivity {
         intLivesLost++;
         intLivesRemaining--;
 
+        // Player is dead
         if (intLivesRemaining == 0) {
-
+            intWinStreak = 0;
+            intLossStreak ++;
             if (timer != null) {
                 timer.cancel();
             }
@@ -739,7 +727,7 @@ public class HangmanActivity extends AppCompatActivity {
                                 getResources().getString(R.string.play_again), getResources().getString(R.string.ok), getResources().getString(R.string.not_yet), getResources().getString(R.string.loss));
                     }
                 }
-            }, 3500);
+            }, 2000);
         }
     }
 
@@ -821,7 +809,22 @@ public class HangmanActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.fragment_dialog);
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            // Unlock the achievement for playing first game
+            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_first_game));
 
+            if (!(strCustom.equals(getResources().getString(R.string.default_custom)))){
+                // Increment achievements for using custom words lists
+                Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_use_your_words));
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_use_your_words_5),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_use_your_words_10),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_use_your_words_20),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_use_your_words_100),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_use_your_words_200),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_use_your_words_500),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_use_your_words_1000),1);
+            }
+        }
         final EditText editTextPlayerName = (EditText) dialog.findViewById(R.id.editTextPlayerName);
         editTextPlayerName.setVisibility(View.GONE);
         TextView textViewFragTime = (TextView) dialog.findViewById(R.id.textViewFragTime);
@@ -834,12 +837,129 @@ public class HangmanActivity extends AppCompatActivity {
                 // New best time
                 textViewFragTime.setVisibility(View.VISIBLE);
                 editTextPlayerName.setVisibility(View.VISIBLE);
+
+                // Achievements for winning a game
+                if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                    // Unlock the achievement for playing first game
+                    Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_first_game));
+
+                    // Increment achievements for multiple plays
+                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_5_games),1);
+                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_10_games),1);
+                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_20_games),1);
+                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_100_games),1);
+                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_200_games),1);
+                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_500_games),1);
+                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_1000_games),1);
+
+                    switch (intWinStreak) {
+                        case 5:
+                            // Unlock achievement winning 5 games
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_5_in_a_row));
+                            break;
+                        case 10:
+                            // Unlock achievement winning 10 games
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_10_in_a_row));
+                            break;
+                        default:
+                            break;
+                    }
+                    // Unlock the achievements for winning in under X time
+                    if (intTime <= 500){
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_500));
+                    }
+                    if (intTime <= 250){
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_250));
+                    }
+                    if (intTime <= 100){
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_100));
+                    }
+                    if (intTime <= 50){
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_50));
+                    }
+                    if (intTime <= 25){
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_25));
+                    }
+                    if (intTime <= 10){
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_10));
+                    }
+                    // Unlock the achievements for winning with X lives
+                    // and for not losing any lives
+                    switch (intLives){
+                        case 5:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_5_lives));
+                            if (intLivesLost == 0) Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_none_lost_5));
+                            break;
+                        case 6:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_6_lives));
+                            break;
+                        case 7:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_7_lives));
+                            break;
+                        case 8:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_8_lives));
+                            break;
+                        case 9:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_9_lives));
+                            break;
+                        case 10:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_10_lives));
+                            if (intLivesLost == 0) Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_none_lost_10));
+                            break;
+                        case 11:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_11_lives));
+                            break;
+                        case 12:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_12_lives));
+                            break;
+                        case 13:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_13_lives));
+                            break;
+                        case 14:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_14_lives));
+                            break;
+                        case 15:
+                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_15_lives));
+                            if (intLivesLost == 0) Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_none_lost_15));
+                            break;
+                        default:
+                            break;
+                    }
+
+                } else {
+                    // Alternative implementation (or warn user that they must
+                    // sign in to use this feature)
+                    Toast.makeText(HangmanActivity.this, getResources().getString(R.string.achievement_message), Toast.LENGTH_SHORT).show();
+                }
             }
         }
         if (strResult.equals(getResources().getString(R.string.loss))) {
             // Lost game
             ImageView imageResult = (ImageView) dialog.findViewById(R.id.imageResult);
             imageResult.setImageResource(R.drawable.lifelostimage);
+
+            // Achievements for losing a game
+            if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                // Unlock the achievement for playing first game
+                Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_loser));
+
+                // Unlock the achievements for losing many in a row
+                switch (intLossStreak) {
+                    case 5:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_losing_streak));
+                        break;
+                    case 10:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_big_loser));
+                        break;
+                    default:
+                        break;
+                }
+
+            } else {
+                // Alternative implementation (or warn user that they must
+                // sign in to use this feature)
+                Toast.makeText(HangmanActivity.this, getResources().getString(R.string.achievement_message), Toast.LENGTH_SHORT).show();
+            }
         }
         TextView textViewCaption = (TextView) dialog.findViewById(R.id.textViewCaption);
         textViewCaption.setText(strMessage);

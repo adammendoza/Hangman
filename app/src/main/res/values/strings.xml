@@ -82,4 +82,5 @@
     <string name="alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
     <string name="sign_in_other_error">There was an issue with sign-in, please try again later.</string>
     <string name="sign_in_failure">Unable to sign in.</string>
+    <string name="achievement_message">You need to be signed into the google play services to unlock achievements</string>
 </resources>

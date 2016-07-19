@@ -17,14 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.*;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameUtils;
+
+
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     };
 
     final static String PREFERENCE_SETTINGS = "settingWordLength";
-    static int intShortestWord, intLongestWord, intLives, intRand, intCount;
+    static int intShortestWord, intLongestWord, intLives, intRand, intCount, intDemoPlay;
     public static int intLivesRem;
     static boolean booFirstPlay, booNoRate, booGuessInTitle, booTitleIncomplete;
     static String strWordsLists, strCustom, strLetters, strTitle;
@@ -54,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_main);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -387,6 +392,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onFinish() {
                 // Timer is finished, reset the title bar and restart animation
                 StartDemo();
+                intDemoPlay ++;
+                // If the demo has been watched 5 times in a row
+                if (intDemoPlay == 5){
+                    if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                        // Unlock the secret achievement
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_the_secret));
+                    }
+                }
             }
         }.start();
     }
@@ -559,4 +572,3 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 }
-

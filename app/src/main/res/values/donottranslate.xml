@@ -5,6 +5,7 @@ Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
     <string name="app_id">787931069584</string>
+    <string name="facebook_app_id">1628273337489020</string>
     <string name="package_name">com.gfaiers.hangman</string>
     <string name="achievement_first_game">CgkIkPnnovcWEAIQAQ</string>
     <string name="achievement_win_5_games">CgkIkPnnovcWEAIQAg</string>
