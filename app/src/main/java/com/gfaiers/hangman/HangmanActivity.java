@@ -839,6 +839,7 @@ public class HangmanActivity extends AppCompatActivity {
                 editTextPlayerName.setVisibility(View.VISIBLE);
 
                 // Achievements for winning a game
+                Toast.makeText(HangmanActivity.this, mGoogleApiClient + " " + mGoogleApiClient.isConnected(), Toast.LENGTH_SHORT).show();
                 if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                     // Unlock the achievement for playing first game
                     Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_first_game));
