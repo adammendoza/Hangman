@@ -83,4 +83,5 @@
     <string name="sign_in_other_error">Es gab ein Problem mit Anmeldung, bitte versuchen Sie es später noch einmal.</string>
     <string name="sign_in_failure">Können Sie sich anmelden.</string>
     <string name="achievement_message">Sie müssen sich in den Google Play-Dienste unterzeichnet werden Leistungen zu entsperren</string>
+    <string name="achievements">Erfolge</string>
 </resources>

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     };
 
     final static String PREFERENCE_SETTINGS = "settingWordLength";
-    static int intShortestWord, intLongestWord, intLives, intRand, intCount, intDemoPlay;
+    static int intShortestWord, intLongestWord, intLives, intRand, intCount, intDemoPlay = 0;
     public static int intLivesRem;
     static boolean booFirstPlay, booNoRate, booGuessInTitle, booTitleIncomplete;
     static String strWordsLists, strCustom, strLetters, strTitle;
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (cdTimer != null){
             cdTimer.cancel();
         }
+        intDemoPlay = 0;
         super.onPause();
     }
 
