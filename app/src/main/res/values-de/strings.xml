@@ -84,4 +84,5 @@
     <string name="sign_in_failure">Können Sie sich anmelden.</string>
     <string name="achievement_message">Sie müssen sich in den Google Play-Dienste unterzeichnet werden Leistungen zu entsperren</string>
     <string name="achievements">Erfolge</string>
+    <string name="leaderboard">Bestenliste</string>
 </resources>

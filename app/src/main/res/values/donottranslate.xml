@@ -49,4 +49,5 @@ Save this file as res/values/games-ids.xml in your project.
     <string name="achievement_under_25">CgkIkPnnovcWEAIQJQ</string>
     <string name="achievement_under_10">CgkIkPnnovcWEAIQJw</string>
     <string name="achievement_the_secret">CgkIkPnnovcWEAIQJg</string>
+    <string name="leaderboard_best_times">CgkIkPnnovcWEAIQLg</string>
 </resources>

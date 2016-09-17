@@ -84,4 +84,5 @@
     <string name="sign_in_failure">Impossible de se connecter.</string>
     <string name="achievement_message">Vous devez être connecté dans les services de Google Play pour déverrouiller réalisations</string>
     <string name="achievements">Réalisations</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>

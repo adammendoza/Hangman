@@ -84,4 +84,5 @@
     <string name="sign_in_failure">Onmogelijk om in te loggen.</string>
     <string name="achievement_message">Je moet in de Google Play-services worden ondertekend om de resultaten te ontgrendelen</string>
     <string name="achievements">Prestaties</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>

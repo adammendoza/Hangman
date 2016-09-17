@@ -754,6 +754,7 @@ public class HangmanActivity extends AppCompatActivity implements GoogleApiClien
             if (timer != null) {
                 timer.cancel();
             }
+            Games.Leaderboards.submitScore(mGoogleApiClient, getResources().getString(R.string.leaderboard_best_times),intTime);
             intWinStreak ++;
             intLossStreak = 0;
             for (int id: BUTTON_IDS) {
@@ -939,97 +940,90 @@ public class HangmanActivity extends AppCompatActivity implements GoogleApiClien
                 editTextPlayerName.setVisibility(View.VISIBLE);
 
                 // Achievements for winning a game
-                if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-                    // Unlock the achievement for playing first game
-                    Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_first_game));
+                // Unlock the achievement for playing first game
+                Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_first_game));
 
-                    // Increment achievements for multiple plays
-                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_5_games),1);
-                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_10_games),1);
-                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_20_games),1);
-                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_100_games),1);
-                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_200_games),1);
-                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_500_games),1);
-                    Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_1000_games),1);
+                // Increment achievements for multiple plays
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_5_games),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_10_games),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_20_games),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_100_games),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_200_games),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_500_games),1);
+                Games.Achievements.increment(mGoogleApiClient, getResources().getString(R.string.achievement_win_1000_games),1);
 
-                    switch (intWinStreak) {
-                        case 5:
-                            // Unlock achievement winning 5 games
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_5_in_a_row));
-                            break;
-                        case 10:
-                            // Unlock achievement winning 10 games
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_10_in_a_row));
-                            break;
-                        default:
-                            break;
-                    }
-                    // Unlock the achievements for winning in under X time
-                    if (intTime <= 500){
-                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_500));
-                    }
-                    if (intTime <= 250){
-                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_250));
-                    }
-                    if (intTime <= 100){
-                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_100));
-                    }
-                    if (intTime <= 50){
-                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_50));
-                    }
-                    if (intTime <= 25){
-                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_25));
-                    }
-                    if (intTime <= 10){
-                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_10));
-                    }
-                    // Unlock the achievements for winning with X lives
-                    // and for not losing any lives
-                    switch (intLives){
-                        case 5:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_5_lives));
-                            if (intLivesLost == 0) Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_none_lost_5));
-                            break;
-                        case 6:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_6_lives));
-                            break;
-                        case 7:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_7_lives));
-                            break;
-                        case 8:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_8_lives));
-                            break;
-                        case 9:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_9_lives));
-                            break;
-                        case 10:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_10_lives));
-                            if (intLivesLost == 0) Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_none_lost_10));
-                            break;
-                        case 11:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_11_lives));
-                            break;
-                        case 12:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_12_lives));
-                            break;
-                        case 13:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_13_lives));
-                            break;
-                        case 14:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_14_lives));
-                            break;
-                        case 15:
-                            Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_15_lives));
-                            if (intLivesLost == 0) Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_none_lost_15));
-                            break;
-                        default:
-                            break;
-                    }
-
-                } else {
-                    // Alternative implementation (or warn user that they must
-                    // sign in to use this feature)
-                    Toast.makeText(HangmanActivity.this, getResources().getString(R.string.achievement_message), Toast.LENGTH_SHORT).show();
+                switch (intWinStreak) {
+                    case 5:
+                        // Unlock achievement winning 5 games
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_5_in_a_row));
+                        break;
+                    case 10:
+                        // Unlock achievement winning 10 games
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_10_in_a_row));
+                        break;
+                    default:
+                        break;
+                }
+                // Unlock the achievements for winning in under X time
+                if (intTime <= 500){
+                    Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_500));
+                }
+                if (intTime <= 250){
+                    Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_250));
+                }
+                if (intTime <= 100){
+                    Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_100));
+                }
+                if (intTime <= 50){
+                    Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_50));
+                }
+                if (intTime <= 25){
+                    Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_25));
+                }
+                if (intTime <= 10){
+                    Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_under_10));
+                }
+                // Unlock the achievements for winning with X lives
+                // and for not losing any lives
+                switch (intLives){
+                    case 5:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_5_lives));
+                        if (intLivesLost == 0) Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_none_lost_5));
+                        break;
+                    case 6:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_6_lives));
+                        break;
+                    case 7:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_7_lives));
+                        break;
+                    case 8:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_8_lives));
+                        break;
+                    case 9:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_9_lives));
+                        break;
+                    case 10:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_10_lives));
+                        if (intLivesLost == 0) Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_none_lost_10));
+                        break;
+                    case 11:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_11_lives));
+                        break;
+                    case 12:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_12_lives));
+                        break;
+                    case 13:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_13_lives));
+                        break;
+                    case 14:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_14_lives));
+                        break;
+                    case 15:
+                        Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_15_lives));
+                        if (intLivesLost == 0) Games.Achievements.unlock(mGoogleApiClient, getResources().getString(R.string.achievement_none_lost_15));
+                        break;
+                    default:
+                        break;
                 }
             }
         }

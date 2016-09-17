@@ -90,6 +90,8 @@ public class ScoresActivity extends AppCompatActivity implements GoogleApiClient
         LinearLayout layout10 = (LinearLayout)findViewById(R.id.layout10);
         Button buttonClearTimes = (Button) findViewById(R.id.buttonClearTimes);
         Button buttonAchievements = (Button) findViewById(R.id.buttonAchievements);
+        Button buttonScoresBack = (Button) findViewById(R.id.buttonScoresBack);
+        Button buttonLeaderboard = (Button) findViewById(R.id.buttonLeaderboard);
 
         SharedPreferences settings = getSharedPreferences(PREFERENCE_SETTINGS, MODE_PRIVATE);
         intBestTime1 = settings.getLong("settingBestTime1", 9223372036854775807L);
@@ -144,6 +146,8 @@ public class ScoresActivity extends AppCompatActivity implements GoogleApiClient
         assert layout10 != null;
         assert buttonClearTimes != null;
         assert buttonAchievements != null;
+        assert buttonScoresBack != null;
+        assert buttonLeaderboard != null;
 
         String strTemp;
         if (intBestTime1 == 9223372036854775807L){
@@ -218,6 +222,19 @@ public class ScoresActivity extends AppCompatActivity implements GoogleApiClient
             textView10Name.setText(strBestTime10);
         }
 
+        buttonScoresBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        buttonLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(Games.Leaderboards.getLeaderboardIntent(mGoogleApiClient, getResources().getString(R.string.leaderboard_best_times)), 1);
+            }
+        });
         buttonAchievements.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -84,4 +84,5 @@
     <string name="sign_in_failure">Incapaz de acceder.</string>
     <string name="achievement_message">Es necesario que se firmará en los servicios de Google Play para desbloquear logros</string>
     <string name="achievements">Logros</string>
+    <string name="leaderboard">la tabla de posiciones</string>
 </resources>

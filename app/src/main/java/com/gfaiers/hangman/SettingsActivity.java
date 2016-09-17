@@ -72,6 +72,7 @@ public class SettingsActivity extends AppCompatActivity {
         final Spinner spinnerCustomList = (Spinner) findViewById(R.id.spinnerCustomList);
         final Button buttonNewList = (Button) findViewById(R.id.buttonNewList);
         final Button buttonEditList = (Button) findViewById(R.id.buttonEditList);
+        final Button buttonSettingsBack = (Button) findViewById(R.id.buttonSettingsBack);
 
         // Pull up the variables that were passed to this class
         Intent intentSettings = getIntent();
@@ -92,6 +93,7 @@ public class SettingsActivity extends AppCompatActivity {
         assert spinnerWordsLists != null;
         assert buttonEditList != null;
         assert buttonNewList != null;
+        assert buttonSettingsBack != null;
 
         seekBarMinWordLength.setMax(19);
         seekBarMinWordLength.setProgress(intShortestWord - 1);
@@ -127,6 +129,7 @@ public class SettingsActivity extends AppCompatActivity {
                 saveSettings();
             }
         });
+
         //Set up the first seekBar for the longest word
         seekBarMaxWordLength.setMax(28);
         seekBarMaxWordLength.setProgress(intLongestWord - 2);
@@ -370,6 +373,32 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                     saveSettings();
                 }
+            }
+        });
+        buttonSettingsBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Spinner spinnerWordsLists = (Spinner) findViewById(R.id.spinnerWordsLists);
+                final Spinner spinnerCustomList = (Spinner) findViewById(R.id.spinnerCustomList);
+                final Button buttonNewList = (Button) findViewById(R.id.buttonNewList);
+                final Button buttonEditList = (Button) findViewById(R.id.buttonEditList);
+                assert spinnerWordsLists != null;
+                assert spinnerCustomList != null;
+                assert buttonNewList != null;
+                assert buttonEditList != null;
+                if (spinnerWordsLists.getSelectedItem().toString().equals(getResources().getString(R.string.custom_list)) && spinnerCustomList.getSelectedItem().toString().equals(getResources().getString(R.string.default_custom))){
+                    // If there is no word list selected then set as default
+                    booListChanged = true;
+                    booCustomChanged = true;
+                    strWordsLists = getResources().getString(R.string.default_list);
+                    strCustom = getResources().getString(R.string.default_custom);
+                    spinnerWordsLists.setSelection(1);
+                    spinnerCustomList.setVisibility(View.GONE);
+                    buttonNewList.setVisibility(View.GONE);
+                    buttonEditList.setVisibility(View.GONE);
+                }
+                saveSettings();
+                finish();
             }
         });
     }

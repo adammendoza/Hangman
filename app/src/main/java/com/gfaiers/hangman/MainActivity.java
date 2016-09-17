@@ -518,7 +518,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 // Take to the Play Store and load the app on there
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 //Try Google play
-                //TODO Ensure Google Play has the right package for my app
                 intent.setData(Uri.parse(getResources().getString(R.string.google_play)));
                 if (!MyStartActivity(intent)) {
                     //Market (Google play) app seems not installed, let's try to open a web browser
